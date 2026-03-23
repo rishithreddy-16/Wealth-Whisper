@@ -1,0 +1,67 @@
+import openai
+import os
+
+# 🔑 Setup your API Key
+# Ideally, use os.getenv("OPENAI_API_KEY") for safety. 
+# For now, you can paste it here directly inside quotes for testing, 
+# BUT NEVER commit this file to GitHub with the key inside.
+groq_api_key = "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"
+
+client = openai.OpenAI(api_key=api_key)
+
+def generate_email(client_name, ticker, stock_data, risk_tolerance):
+    """
+    Drafts a personalized email using GPT-3.5/4.
+    """
+    price = stock_data['price']
+    change = stock_data['change']
+    direction = "UP" if change > 0 else "DOWN"
+    
+    # --- PROMPT ENGINEERING ---
+    # We give the AI a "Persona" and specific rules.
+    
+    system_instruction = """
+    You are a Senior Wealth Manager at a top tier bank. 
+    Your goal is to write brief, professional, and reassuring emails to clients.
+    - If the stock is DOWN: Be empathetic, focus on long-term strategy, and avoid panic.
+    - If the stock is UP: Be celebratory but grounded, suggest it might be a good time to review.
+    - Keep it under 100 words.
+    - Sign off as 'Your Advisory Team'.
+    """
+    
+    user_prompt = f"""
+    Write an email to my client, {client_name}.
+    They own {ticker}.
+    
+    Context:
+    - {ticker} is currently ${price}.
+    - It has moved {change}% ({direction}) today.
+    - The client's Risk Tolerance is: {risk_tolerance}.
+    
+    (Note: If risk tolerance is 'Low', be extra reassuring. If 'High', keep it analytical).
+    """
+    
+    try:
+        response = client.chat.completions.create(
+            model="gpt-3.5-turbo", # or "gpt-4" if you want to be fancy
+            messages=[
+                {"role": "system", "content": system_instruction},
+                {"role": "user", "content": user_prompt}
+            ],
+            temperature=0.7 # Slight creativity, but professional
+        )
+        return response.choices[0].message.content
+    except Exception as e:
+        return f"Error generating email: {e}"
+
+# --- TESTING BLOCK ---
+if __name__ == "__main__":
+    # Fake data to test the AI
+    fake_stock = {"price": 250.00, "change": -12.5} # A Crash Scenario
+    print("🤖 Drafting test email...")
+    
+    email = generate_email("Rishith Reddy", "TSLA", fake_stock, "High")
+    
+    print("\n--- GENERATED EMAIL ---")
+    print(email)
+    print("-----------------------")
