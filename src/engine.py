@@ -10,7 +10,7 @@ def load_data():
         df = pd.read_csv("client_portfolios.csv")
         return df
     except FileNotFoundError:
-        return pd.read_csv("../data/client_portfolios.csv") # Backup for testing inside src
+        return pd.read_csv("client_portfolios.csv") # Backup for testing inside src
 
 # 2. Check the Market
 def check_stock_price(ticker):
