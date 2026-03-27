@@ -7,7 +7,7 @@ def load_data():
     # Ensure the path is correct based on where you run the script
     # If running from root: "data/client_portfolios.csv"
     try:
-        df = pd.read_csv("C:\\Users\\rishi\\Wealth-Whisker\\data\\client_portfolios.csv")
+        df = pd.read_csv("client_portfolios.csv")
         return df
     except FileNotFoundError:
         return pd.read_csv("../data/client_portfolios.csv") # Backup for testing inside src
