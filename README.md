@@ -65,4 +65,4 @@ requirements.txt
 Built as a hands-on finance + AI project by **Rishith Reddy Nomula** (M.S. Data Science).  
 If you’d like a quick walkthrough of the design or code, I’m happy to walk you through it.
 📧 [rishithreddy1652@gmail.com](mailto:rishithreddy1652@gmail.com)  
-💼 [LinkedIn](https://linkedin.com/in/rishithreddy-16)
+💼 [LinkedIn](https://linkedin.com/in/rishith-reddy16/)
